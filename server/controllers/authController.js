@@ -58,7 +58,55 @@ const register = async (req, res) => {
 }
 
 
+const login = async (req, res) => {
+
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({ message: "All fields are required.", success: false })
+        }
+
+        if (!validator.isEmail(email)) {
+            return res.status(400).json({ message: "Please enter a valid email address.", success: false })
+        }
+
+        let user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found.", success: false })
+        }
+
+        const isValidPassword = await bcryptjs.compare(password,user.password);
+
+         if (!isValidPassword) {
+            return res.status(400).json({ message: "Invalid credentials.", success: false })
+        }
+
+        const token = generateToken(user._id);
+
+        res.cookie('jwt', token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+            maxAge: 24 * 60 * 60 * 1000
+        })
+
+
+        res.status(200).json({
+            message: "Usere logged in successfully.", data: {
+                email: user.email
+            }
+        })
+
+    } catch (error) {
+        return res.status(500).json({ message: "Server error.", success: false })
+    }
+}
+
+
 
 module.exports = {
-    register
+    register,
+    login
 }
