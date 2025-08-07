@@ -1,15 +1,23 @@
 require('dotenv').config()
 const express = require('express');
 const connectDB = require('./db/conn');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const authRouter = require('./routes/authRoutes');
 const app = express()
 
-app.use(express.json());
 
 connectDB();
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+app.use(express.json());
+app.use(cors({
+  origin:process.env.ORIGIN,
+  credentials:true
+}))
+app.use(cookieParser())
+
+
+app.use("/api/auth",authRouter)
 
 const port = process.env.PORT || 3000;
 
