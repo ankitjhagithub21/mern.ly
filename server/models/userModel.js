@@ -14,7 +14,7 @@ const userSchema = new Schema({
         required: true,
     },
 
-});
+},{versionKey:false});
 
 const User = model("User", userSchema)
 
