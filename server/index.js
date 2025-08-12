@@ -17,6 +17,10 @@ app.use(cors({
 app.use(cookieParser())
 
 
+app.get("/",(req,res) => {
+  res.json({"message":"Api working."})
+})
+
 app.use("/api/auth",authRouter)
 
 const port = process.env.PORT || 3000;
