@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import HeroSection from '../components/HeroSection'
+import FeaturesSection from '../components/FeaturesSection';
 
 const HomePage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -20,9 +21,10 @@ const HomePage = () => {
   };
 
   return (
-    <div className='container mx-auto relative'>
+    <main className='container mx-auto'>
       <HeroSection  onShorten={handleShorten} isLoading={isLoading}/>
-    </div>
+      <FeaturesSection/>
+    </main>
   )
 }
 

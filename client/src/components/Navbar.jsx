@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 const Navbar = () => {
     const { user } = useSelector(state => state.auth)
     return (
-       <header className="fixed w-full top-0 z-50">
+       <header className="sticky w-full top-0 z-50">
          <div className="navbar bg-base-100 shadow-sm ">
             <div className="flex-1">
                 <Link to={"/"} className="btn btn-ghost text-xl">Mern<span className="text-success">Ly</span></Link>
