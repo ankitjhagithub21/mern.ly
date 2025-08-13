@@ -47,17 +47,17 @@ const HeroSection = ({
       className={`  w-full py-24 px-5 ${className}`}
     >
       <div className="max-w-7xl mx-auto relative">
-       
-       <div className="hidden md:block">
-         <div
 
-          className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-primary/20 blur-3xl"
-        ></div>
-        <div
+        <div className="hidden md:block">
+          <div
 
-          className="pointer-events-none absolute -bottom-24 -right-24 h-80 w-80 rounded-full bg-secondary/20 blur-3xl"
-        ></div>
-       </div>
+            className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-primary/20 blur-3xl"
+          ></div>
+          <div
+
+            className="pointer-events-none absolute -bottom-24 -right-24 h-80 w-80 rounded-full bg-secondary/20 blur-3xl"
+          ></div>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 relative gap-10">
           {/* Left: Copy + Form */}
@@ -137,11 +137,11 @@ const HeroSection = ({
             <div className="card bg-base-100 shadow-xl border border-base-200">
               <div className="card-body">
                 <div className="flex items-center gap-3">
-                  <div className="avatar placeholder">
-                    <div className="bg-primary/15 text-primary rounded-full w-10">
-                      <span className="text-sm font-bold">ML</span>
-                    </div>
+
+                  <div className="bg-primary/15 text-primary rounded-full w-10 h-10 flex items-center justify-center">
+                    <span className="text-sm font-bold">ML</span>
                   </div>
+
                   <div className="flex-1 min-w-0">
                     <div className="text-sm text-base-content/60">Your link</div>
                     <div className="font-mono truncate">mern.ly/xyz123</div>
