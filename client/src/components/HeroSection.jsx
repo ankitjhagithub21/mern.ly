@@ -8,7 +8,7 @@ const HeroSection = ({
   error = "",
   className = "",
 }) => {
-  const [url, setUrl] = useState(defaultUrl);
+  const [url, setUrl] = useState('');
   const [localError, setLocalError] = useState("");
 
   const normalizeUrl = (value) => {
@@ -25,7 +25,7 @@ const HeroSection = ({
   try {
     await navigator.clipboard.writeText(defaultUrl);
     toast.success("Copied to clipboard");
-
+    
   } catch (err) {
     console.error("Failed to copy:", err);
     toast.error("Failed to copy")

@@ -3,7 +3,7 @@ const { nanoid } = require('nanoid');
 const validUrl = require('valid-url');
 
 // Optional: define your app's base URL (used for full short links)
-const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
+const BASE_URL = process.env.ORIGIN || 'http://localhost:3000';
 
 // POST /api/url/shorten
 const createShortUrl = async (req, res) => {
@@ -59,6 +59,29 @@ const createShortUrl = async (req, res) => {
     }
 };
 
+const getLongUrl = async (req, res) => {
+  try {
+    const { shortId } = req.params;
+
+    // Find the original URL from the database
+    const urlDoc = await Url.findOne({ shortUrl:shortId });
+
+    if (!urlDoc) {
+      return res.status(404).json({ message: "Short URL not found",success:false });
+    }
+
+    // Redirect to the original URL
+    return res.status(200).json({success:true, data:urlDoc});
+
+  } catch (error) {
+    console.error("Error redirecting:", error);
+    res.status(500).json({ message: "Server error",success:false });
+  }
+};
+
+
+
 module.exports = {
     createShortUrl,
+    getLongUrl
 };

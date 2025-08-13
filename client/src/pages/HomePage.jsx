@@ -23,7 +23,7 @@ const HomePage = () => {
         toast.success(data.message)
         console.log(data.data)
         setShortUrl(data.data.shortUrl)
-
+        
       } else {
         toast.error(data.message)
       }
