@@ -1,13 +1,11 @@
+import {Link} from "react-router-dom"
 
-
-const AuthForm = () => {
+const AuthForm = ({title}) => {
     return (
-
-
-        <form className='max-w-md p-5 rounded-lg w-full flex flex-col space-y-4'>
-            
+        <form className='max-w-md p-5  w-full flex flex-col space-y-4'>
+            <h1 className="text-center text-2xl mb-5">{title}</h1>
             <div>
-                <label className="input validator w-full">
+                <label className="input input-primary validator w-full">
                     <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <g
                             strokeLinejoin="round"
@@ -26,7 +24,7 @@ const AuthForm = () => {
                 <div className="validator-hint hidden">Enter valid email address</div>
             </div>
             <div>
-                <label className="input validator w-full">
+                <label className="input input-primary validator w-full">
                     <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <g
                             strokeLinejoin="round"
@@ -55,7 +53,8 @@ const AuthForm = () => {
                    
                 </p>
             </div>
-            <button className='btn btn-primary'>Create Account</button>
+            <button className='btn btn-primary'>Submit</button>
+           
         </form>
 
 
