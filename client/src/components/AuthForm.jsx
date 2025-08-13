@@ -1,7 +1,10 @@
 import { useState } from "react"
 import {  useNavigate } from "react-router-dom"
+import {  useDispatch } from "react-redux"
 import Loader from "./Loader";
 import toast from "react-hot-toast";
+import { setUser } from "../redux/authSlice";
+
 
 const baseUrl = `${import.meta.env.VITE_SERVER_URL}/api/auth`;
 
@@ -12,6 +15,8 @@ const AuthForm = ({title,type}) => {
     const [isLoading,setIsLoading] = useState(false)
    
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
     const handleSubmit = async(e) => {
         e.preventDefault();
         setIsLoading(true)
@@ -30,6 +35,7 @@ const AuthForm = ({title,type}) => {
                 toast.success(data.message)
                 setEmail('')
                 setPassword('')
+                dispatch(setUser(data.data))
                 navigate("/")
 
             }else{
