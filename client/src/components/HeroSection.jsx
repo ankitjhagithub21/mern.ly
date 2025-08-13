@@ -58,7 +58,7 @@ const HeroSection = ({
 
       <div className="hero-content max-w-7xl w-full flex-col lg:flex-row gap-10 px-4">
         {/* Left: Copy + Form */}
-        <div className="w-full">
+        <div className="w-full lg:w-7/12">
           <div className="badge badge-primary badge-outline mb-4">MernLy</div>
 
           <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight">
@@ -130,7 +130,7 @@ const HeroSection = ({
         </div>
 
         {/* Right: Preview Card */}
-        <div className="w-full">
+        <div className="w-full lg:w-5/12">
           <div className="card bg-base-100 shadow-xl border border-base-200">
             <div className="card-body">
               <div className="flex items-center gap-3">
