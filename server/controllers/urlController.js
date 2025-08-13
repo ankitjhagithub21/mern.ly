@@ -28,6 +28,7 @@ const createShortUrl = async (req, res) => {
         if (existing) {
             return res.json({
                 success: true, 
+                message:"Short URL created successfully.",
                 data: {
                     shortUrl: `${BASE_URL}/${existing.shortUrl}`,
                     _id: existing._id,

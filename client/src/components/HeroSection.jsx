@@ -1,11 +1,11 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 const HeroSection = ({
   onShorten,
   isLoading = false,
   defaultUrl = "",
   error = "",
-
   className = "",
 }) => {
   const [url, setUrl] = useState(defaultUrl);
@@ -20,6 +20,19 @@ const HeroSection = ({
     }
     return v;
   };
+
+  const handleCopy = async () => {
+  try {
+    await navigator.clipboard.writeText(defaultUrl);
+    toast.success("Copied to clipboard");
+
+  } catch (err) {
+    console.error("Failed to copy:", err);
+    toast.error("Failed to copy")
+    // Fallback or error UI
+  }
+};
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -144,9 +157,9 @@ const HeroSection = ({
 
                   <div className="flex-1 min-w-0">
                     <div className="text-sm text-base-content/60">Your link</div>
-                    <div className="font-mono truncate">mern.ly/xyz123</div>
+                    <div className="font-mono truncate">{defaultUrl}</div>
                   </div>
-                  <button className="btn btn-ghost btn-xs">Copy</button>
+                  <button onClick={handleCopy} className="btn btn-ghost btn-xs">Copy</button>
                 </div>
 
                 <div className="divider my-3" />
