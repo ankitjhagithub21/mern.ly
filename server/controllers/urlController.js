@@ -73,6 +73,8 @@ const getLongUrl = async (req, res) => {
     // Redirect to the original URL
     return res.status(200).json({success:true, data:urlDoc});
 
+    // return res.redirect(urlDoc.longUrl)
+
   } catch (error) {
     console.error("Error redirecting:", error);
     res.status(500).json({ message: "Server error",success:false });
