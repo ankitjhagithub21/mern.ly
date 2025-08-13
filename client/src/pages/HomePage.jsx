@@ -33,7 +33,7 @@ const HomePage = () => {
   };
 
   return (
-    <main className='container mx-auto'>
+    <main>
       <HeroSection onShorten={handleShorten} isLoading={isLoading} defaultUrl={shortUrl || 'mern.ly/xyz123'} />
       <FeaturesSection />
     </main>

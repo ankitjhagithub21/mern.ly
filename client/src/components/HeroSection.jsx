@@ -57,11 +57,11 @@ const HeroSection = ({
 
   return (
     <section
-      className={`  w-full py-24 px-5 ${className}`}
+      className={`  w-full py-24 px-5 ${className} relative overflow-x-hidden`}
     >
       <div className="max-w-7xl mx-auto relative">
 
-        <div className="hidden md:block">
+       
           <div
 
             className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-primary/20 blur-3xl"
@@ -70,7 +70,7 @@ const HeroSection = ({
 
             className="pointer-events-none absolute -bottom-24 -right-24 h-80 w-80 rounded-full bg-secondary/20 blur-3xl"
           ></div>
-        </div>
+     
 
         <div className="grid grid-cols-1 lg:grid-cols-2 relative gap-10">
           {/* Left: Copy + Form */}
