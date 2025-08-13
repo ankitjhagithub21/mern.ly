@@ -5,13 +5,13 @@ import { Link } from "react-router-dom"
 const Navbar = () => {
     const { user } = useSelector(state => state.auth)
     return (
-       <header className="fixed w-full top-0">
+       <header className="fixed w-full top-0 z-50">
          <div className="navbar bg-base-100 shadow-sm ">
             <div className="flex-1">
                 <Link to={"/"} className="btn btn-ghost text-xl">Mern<span className="text-success">Ly</span></Link>
             </div>
             <div className="flex gap-2">
-                <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" />
+                {/* <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" /> */}
                 {
                     user && user?.email ? <div className="dropdown dropdown-end">
                         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
