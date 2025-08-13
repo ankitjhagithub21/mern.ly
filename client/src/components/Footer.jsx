@@ -53,7 +53,7 @@ const Footer = ({ className = "", onSubscribe }) => {
 
   return (
     <footer className={`bg-base-200 text-base-content ${className}`}>
-      <div className="container mx-auto px-4">
+      <div className="px-4">
         {/* Top */}
         <div className="footer py-12 grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1">
           {/* Brand */}

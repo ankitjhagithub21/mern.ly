@@ -1,9 +1,32 @@
-import { useSelector } from "react-redux"
+import { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
+import { setUser } from "../redux/authSlice"
 
 
 const Navbar = () => {
     const { user } = useSelector(state => state.auth)
+    const dispatch = useDispatch()
+
+    useEffect(()=>{
+        const fetchUser = async() => {
+            try{
+                const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/auth/user`,{
+                    method:"GET",
+                    credentials:'include'
+                })
+                const data = await res.json();
+                if(data.success){
+                    dispatch(setUser(data.data))
+                }else{
+                    dispatch(setUser(null))
+                }
+            }catch(error){
+                dispatch(setUser(null))
+            }
+        }
+        fetchUser()
+    },[])
     return (
        <header className="sticky w-full top-0 z-50">
          <div className="navbar bg-base-100 shadow-sm ">
