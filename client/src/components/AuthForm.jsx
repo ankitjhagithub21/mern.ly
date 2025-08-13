@@ -1,8 +1,50 @@
-import {Link} from "react-router-dom"
+import { useState } from "react"
+import {  useNavigate } from "react-router-dom"
+import Loader from "./Loader";
+import toast from "react-hot-toast";
 
-const AuthForm = ({title}) => {
+const baseUrl = `${import.meta.env.VITE_SERVER_URL}/api/auth`;
+
+const AuthForm = ({title,type}) => {
+    const [email,setEmail] = useState('')
+    const [password,setPassword] = useState('')
+
+    const [isLoading,setIsLoading] = useState(false)
+   
+    const navigate = useNavigate()
+    const handleSubmit = async(e) => {
+        e.preventDefault();
+        setIsLoading(true)
+        try{
+            const res = await fetch(`${baseUrl}/${type}`,{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                credentials:'include',
+                body:JSON.stringify({email,password})
+            })
+            const data = await res.json();
+           
+            if(data.success){
+                toast.success(data.message)
+                setEmail('')
+                setPassword('')
+                navigate("/")
+
+            }else{
+                toast.error(data.message)
+            }
+        }catch(error){
+            console.log(error)
+            toast.error("Something went wrong !")
+        }finally{
+            setIsLoading(false)
+        }
+    }
+
     return (
-        <form className='max-w-md p-5  w-full flex flex-col space-y-4'>
+        <form className='max-w-md p-5  w-full flex flex-col space-y-4' onSubmit={handleSubmit}>
             <h1 className="text-center text-2xl mb-5">{title}</h1>
             <div>
                 <label className="input input-primary validator w-full">
@@ -18,7 +60,7 @@ const AuthForm = ({title}) => {
                             <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
                         </g>
                     </svg>
-                    <input type="email" placeholder="mail@site.com" required />
+                    <input type="email" placeholder="mail@site.com" value={email} onChange={(e)=>setEmail(e.target.value)} required />
                 </label>
 
                 <div className="validator-hint hidden">Enter valid email address</div>
@@ -43,9 +85,12 @@ const AuthForm = ({title}) => {
                         type="password"
                         required
                         placeholder="Password"
-                        minlength="6"
+                        minLength="6"
+                        value={password}
+                        onChange={(e)=>setPassword(e.target.value)}
                         // pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                         title="Must be atleast 6 characters"
+                        
                     />
                 </label>
                 <p className="validator-hint hidden">
@@ -53,7 +98,11 @@ const AuthForm = ({title}) => {
                    
                 </p>
             </div>
-            <button className='btn btn-primary'>Submit</button>
+            <button className='btn btn-primary' type="submit" disabled={isLoading}>
+                {
+                    isLoading ? <Loader/> :'Submit'
+                }
+            </button>
            
         </form>
 
