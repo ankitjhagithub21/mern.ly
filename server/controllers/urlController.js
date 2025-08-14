@@ -64,49 +64,47 @@ const getLongUrl = async (req, res) => {
   try {
     const { shortId } = req.params;
 
-    // Find the original URL from the database
-    const urlDoc = await Url.findOne({ shortUrl:shortId });
-
-
-
-    if (!urlDoc) {
-      return res.status(404).json({ message: "Short URL not found",success:false });
+    // Validate the shortId
+    if (!shortId || typeof shortId !== 'string') {
+      return res.status(400).json({ 
+        message: "Invalid short URL identifier",
+        success: false 
+      });
     }
 
-    urlDoc.clicks = urlDoc.clicks+1;
-    await urlDoc.save();
-    // Redirect to the original URL
-    return res.status(200).json({success:true, data:urlDoc});
+    // Find the original URL from the database
+    const urlDoc = await Url.findOne({ shortUrl: shortId });
 
-    // return res.redirect(urlDoc.longUrl)
+    if (!urlDoc) {
+      return res.status(404).json({ 
+        message: "Short URL not found",
+        success: false 
+      });
+    }
+    // Increment clicks and save
+    urlDoc.clicks += 1;
+    await urlDoc.save();
+
+    // Return the URL document
+    return res.status(200).json({
+      success: true, 
+      data: urlDoc,
+    });
+
+    // If you actually want to redirect instead of returning JSON:
+    // return res.redirect(urlDoc.longUrl);
 
   } catch (error) {
-    console.error("Error redirecting:", error);
-    res.status(500).json({ message: "Server error",success:false });
-  }
-};
-
-
-const getUserLinks = async (req, res) => {
-  try {
-
-    const links = await Url.find({ owner: userId })
-      .sort({ createdAt: -1 }) 
-
-    return res.status(200).json({
-      success: true,
-      message: "User links fetched successfully",
-      data:links,
+    return res.status(500).json({ 
+      message: "Server error",
+      success: false,
     });
-  } catch (err) {
-    console.error("Get user links error:", err);
-    return res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
 
 
 module.exports = {
     createShortUrl,
-    getLongUrl,
-    getUserLinks
+    getLongUrl
 };

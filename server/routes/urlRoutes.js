@@ -6,6 +6,6 @@ const urlRouter = express.Router();
 
 urlRouter.post('/shorten', verifyToken, createShortUrl);
 urlRouter.get('/:shortId',  getLongUrl);
-urlRouter.get('/mine', verifyToken, getUserLinks);
+
 
 module.exports = urlRouter;

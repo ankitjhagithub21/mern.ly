@@ -56,8 +56,8 @@ const Navbar = () => {
                             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                                 <div className="w-10 rounded-full">
                                     <img
-                                        alt="Tailwind CSS Navbar component"
-                                        src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                                        alt="User Profile"
+                                        src="https://cdn-icons-png.flaticon.com/512/219/219983.png" />
                                 </div>
                             </div>
                             <ul
@@ -66,7 +66,7 @@ const Navbar = () => {
                                 <li className="p-2">
                                     {user.email}
                                 </li>
-                                <li><Link to={"/links"}>Your Links</Link></li>
+                                <li><Link to={"/user/links"}>Your Links</Link></li>
                                 <li onClick={handleLogout}><a>Logout</a></li>
                             </ul>
                         </div> : <div className="flex gap-2 items-center">
