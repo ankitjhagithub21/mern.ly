@@ -66,7 +66,7 @@ const Navbar = () => {
                                 <li className="p-2">
                                     {user.email}
                                 </li>
-                                <li><a>Settings</a></li>
+                                <li><Link to={"/links"}>Your Links</Link></li>
                                 <li onClick={handleLogout}><a>Logout</a></li>
                             </ul>
                         </div> : <div className="flex gap-2 items-center">

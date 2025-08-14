@@ -114,9 +114,10 @@ const logout = async(req,res) => {
     }).status(200).json({message:"Logout successfully.", success:true})
 }
 
+
 const getUser = async(req,res) => {
     try{
-        const user = await User.findById(req.userId).select("-password");
+        const user = await User.findById(req.userId).select("email");
 
         if(!user){
             return res.status(400).json({message:"User not found.",success:false})

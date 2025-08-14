@@ -59,6 +59,7 @@ const createShortUrl = async (req, res) => {
     }
 };
 
+
 const getLongUrl = async (req, res) => {
   try {
     const { shortId } = req.params;
@@ -66,10 +67,14 @@ const getLongUrl = async (req, res) => {
     // Find the original URL from the database
     const urlDoc = await Url.findOne({ shortUrl:shortId });
 
+
+
     if (!urlDoc) {
       return res.status(404).json({ message: "Short URL not found",success:false });
     }
 
+    urlDoc.clicks = urlDoc.clicks+1;
+    await urlDoc.save();
     // Redirect to the original URL
     return res.status(200).json({success:true, data:urlDoc});
 
@@ -82,8 +87,26 @@ const getLongUrl = async (req, res) => {
 };
 
 
+const getUserLinks = async (req, res) => {
+  try {
+
+    const links = await Url.find({ owner: userId })
+      .sort({ createdAt: -1 }) 
+
+    return res.status(200).json({
+      success: true,
+      message: "User links fetched successfully",
+      data:links,
+    });
+  } catch (err) {
+    console.error("Get user links error:", err);
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
 
 module.exports = {
     createShortUrl,
-    getLongUrl
+    getLongUrl,
+    getUserLinks
 };

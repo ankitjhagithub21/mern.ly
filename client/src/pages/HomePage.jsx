@@ -3,11 +3,18 @@ import { useState } from 'react';
 import HeroSection from '../components/HeroSection'
 import FeaturesSection from '../components/FeaturesSection';
 import toast from "react-hot-toast"
+import {useSelector} from "react-redux"
+
 const HomePage = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [shortUrl, setShortUrl] = useState('')
+  const {user} = useSelector((state)=>state.auth) 
+
   const handleShorten = async (url) => {
+    if(!user){
+      return toast.error("You are not logged in.")
+    }
     setIsLoading(true);
     try {
       const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/url/shorten`, {
