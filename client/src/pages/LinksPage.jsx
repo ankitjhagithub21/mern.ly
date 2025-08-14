@@ -256,6 +256,7 @@ const LinksPage = () => {
                     <th className="text-center">Clicks</th>
                     <th>Created</th>
                     <th className="text-right">Actions</th>
+                   
                   </tr>
                 </thead>
                 <tbody>
@@ -325,13 +326,7 @@ const LinksPage = () => {
                             >
                               <ExternalLink className="w-4 h-4" />
                             </a>
-                            <Link
-                              to={`/links/${item._id || ""}`}
-                              className="btn btn-ghost btn-xs tooltip"
-                              data-tip="Analytics"
-                            >
-                              <BarChart3 className="w-4 h-4" />
-                            </Link>
+                          
                           </div>
                         </td>
                       </tr>
