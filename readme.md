@@ -191,7 +191,7 @@ UI stack
 
 Routes (example)
 - / — Landing (Hero, How it works, Features)
-- /create — Create short link
+- / — Create short link
 - /links — Your links dashboard
 - /:shortId — Redirect page (fetches long URL then window.location.replace)
 - /login — Login
