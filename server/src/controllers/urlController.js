@@ -73,7 +73,7 @@ const getLongUrl = async (req, res) => {
     }
 
     // Find the original URL from the database
-    const urlDoc = await Url.findOne({ shortUrl: shortId });
+    const urlDoc = await Url.findOneAndUpdate({ shortUrl: shortId }, { $inc: { clicks: 1 } }, { new: true });
 
     if (!urlDoc) {
       return res.status(404).json({ 
@@ -81,9 +81,7 @@ const getLongUrl = async (req, res) => {
         success: false 
       });
     }
-    // Increment clicks and save
-    urlDoc.clicks += 1;
-    await urlDoc.save();
+   
 
     // Return the URL document
     return res.status(200).json({
