@@ -36,8 +36,8 @@ mernly/
 │  ├─ src/
 │  │  ├─ models/urlModel.js
 │  │  ├─ controllers/urlController.js
-│  │  ├─ routes/...
-│  │  └─ middleware/auth.js
+│  │  ├─ routes/urlRoutes.js
+│  │  └─ middleware/verifyToken.js
 │  └─ .env
 │
 ├─ client/               # React (Vite) + Tailwind + daisyUI
@@ -245,8 +245,8 @@ Server package.json
 ```json
 {
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "node index.js"
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js"
   }
 }
 ```

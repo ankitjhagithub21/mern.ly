@@ -411,13 +411,7 @@ const LinksPage = () => {
                           >
                             <ExternalLink className="w-4 h-4" />
                           </a>
-                          <Link
-                            to={`/links/${item._id || ""}`}
-                            className="btn btn-ghost btn-sm tooltip"
-                            data-tip="Analytics"
-                          >
-                            <BarChart3 className="w-4 h-4" />
-                          </Link>
+                        
                         </div>
                       </div>
                     </div>
