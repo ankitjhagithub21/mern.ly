@@ -95,7 +95,7 @@ const RedirectPage = () => {
 
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
               <Link to="/" className="btn btn-primary">Go to Home</Link>
-              <Link to="/create" className="btn btn-ghost">Create a short link</Link>
+              <Link to="/" className="btn btn-ghost">Create a short link</Link>
             </div>
           </div>
         </div>
