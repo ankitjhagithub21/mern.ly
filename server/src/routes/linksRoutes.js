@@ -5,6 +5,6 @@ const { getUserLinks, delteUserLink } = require('../controllers/linkController')
 const linkRouter = express.Router();
 
 linkRouter.get("/",verifyToken,getUserLinks)
-linkRouter.delete("/:shortId",verifyToken,delteUserLink)
+linkRouter.delete("/:linkId",verifyToken,delteUserLink)
 
 module.exports = linkRouter;

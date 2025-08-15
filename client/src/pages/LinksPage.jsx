@@ -1,3 +1,4 @@
+
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -7,7 +8,7 @@ import {
   Check,
   RefreshCw,
   Search,
-  BarChart3,
+  Trash2,
 } from "lucide-react";
 
 const API_BASE = import.meta.env.VITE_SERVER_URL;
@@ -20,6 +21,10 @@ const LinksPage = () => {
   const [sort, setSort] = useState("newest"); // newest | oldest | clicksDesc | clicksAsc
   const [copiedId, setCopiedId] = useState(null);
   const [refreshKey, setRefreshKey] = useState(0);
+
+  // delete modal state
+  const [deleteTarget, setDeleteTarget] = useState(null); // link object
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     const fetchUserLinks = async () => {
@@ -92,9 +97,7 @@ const LinksPage = () => {
         const shortU = toFullShortUrl(l).toLowerCase();
         const longU = (l.longUrl || "").toLowerCase();
         const slug = (l.slug || l.shortUrl || "").toLowerCase();
-        return (
-          shortU.includes(q) || longU.includes(q) || slug.includes(q)
-        );
+        return shortU.includes(q) || longU.includes(q) || slug.includes(q);
       });
     }
     switch (sort) {
@@ -102,14 +105,10 @@ const LinksPage = () => {
         list.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
         break;
       case "clicksDesc":
-        list.sort(
-          (a, b) => (b.clicks || 0) - (a.clicks || 0)
-        );
+        list.sort((a, b) => (b.clicks || 0) - (a.clicks || 0));
         break;
       case "clicksAsc":
-        list.sort(
-          (a, b) => (a.clicks || 0) - (b.clicks || 0)
-        );
+        list.sort((a, b) => (a.clicks || 0) - (b.clicks || 0));
         break;
       default:
         list.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -121,6 +120,35 @@ const LinksPage = () => {
     const clicks = userLinks.reduce((sum, l) => sum + (l.clicks || 0), 0);
     return { links: userLinks.length, clicks };
   }, [userLinks]);
+
+  // Delete handlers
+  const openDelete = (item) => setDeleteTarget(item);
+  const closeDelete = () => {
+    if (!deleting) setDeleteTarget(null);
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteTarget?._id) return;
+    setDeleting(true);
+    setErr("");
+    try {
+      const res = await fetch(`${API_BASE}/api/links/${deleteTarget._id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (res.ok && data?.success) {
+        setUserLinks((prev) => prev.filter((l) => l._id !== deleteTarget._id));
+        setDeleteTarget(null);
+      } else {
+        setErr(data?.message || "Failed to delete link.");
+      }
+    } catch (e) {
+      setErr("Network error while deleting. Please try again.");
+    } finally {
+      setDeleting(false);
+    }
+  };
 
   return (
     <section className="py-8 sm:py-10">
@@ -159,9 +187,7 @@ const LinksPage = () => {
             <div className="stat">
               <div className="stat-title">Last Updated</div>
               <div className="stat-value text-secondary">
-                {userLinks[0]?.createdAt
-                  ? formatDate(userLinks[0]?.createdAt)
-                  : "-"}
+                {userLinks[0]?.createdAt ? formatDate(userLinks[0]?.createdAt) : "-"}
               </div>
               <div className="stat-desc">Newest link date</div>
             </div>
@@ -171,12 +197,12 @@ const LinksPage = () => {
         {/* Controls */}
         <div className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
           <div className="join w-full sm:max-w-md bg-base-200 rounded-full">
-            <div className="join-item btn  no-animation">
+            <div className="join-item btn no-animation">
               <Search className="w-4 h-4" />
             </div>
             <input
               type="text"
-              className="outline-none  w-full"
+              className="outline-none w-full bg-transparent px-2"
               placeholder="Search by URL or slug..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -201,9 +227,7 @@ const LinksPage = () => {
               disabled={loading}
               aria-label="Refresh"
             >
-              <RefreshCw
-                className={`w-4 h-4 ${loading ? "animate-spin" : ""}`}
-              />
+              <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
               <span className="hidden sm:inline">Refresh</span>
             </button>
 
@@ -256,7 +280,6 @@ const LinksPage = () => {
                     <th className="text-center">Clicks</th>
                     <th>Created</th>
                     <th className="text-right">Actions</th>
-                   
                   </tr>
                 </thead>
                 <tbody>
@@ -302,6 +325,7 @@ const LinksPage = () => {
                         <td>{formatDate(item.createdAt)}</td>
                         <td>
                           <div className="flex items-center justify-end gap-2">
+                            {/* Copy */}
                             <button
                               className={`btn btn-ghost btn-xs tooltip ${
                                 isCopied ? "text-success" : ""
@@ -317,6 +341,7 @@ const LinksPage = () => {
                                 <Copy className="w-4 h-4" />
                               )}
                             </button>
+                            {/* Open */}
                             <a
                               className="btn btn-ghost btn-xs tooltip"
                               data-tip="Open"
@@ -326,7 +351,14 @@ const LinksPage = () => {
                             >
                               <ExternalLink className="w-4 h-4" />
                             </a>
-                          
+                            {/* Delete */}
+                            <button
+                              className="btn btn-ghost btn-xs text-error tooltip"
+                              data-tip="Delete"
+                              onClick={() => openDelete(item)}
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
                           </div>
                         </td>
                       </tr>
@@ -387,6 +419,7 @@ const LinksPage = () => {
                           </span>
                         </div>
                         <div className="flex items-center gap-2">
+                          {/* Copy */}
                           <button
                             className={`btn btn-ghost btn-sm tooltip ${
                               isCopied ? "text-success" : ""
@@ -402,6 +435,7 @@ const LinksPage = () => {
                               <Copy className="w-4 h-4" />
                             )}
                           </button>
+                          {/* Open */}
                           <a
                             className="btn btn-ghost btn-sm tooltip"
                             data-tip="Open"
@@ -411,7 +445,14 @@ const LinksPage = () => {
                           >
                             <ExternalLink className="w-4 h-4" />
                           </a>
-                        
+                          {/* Delete */}
+                          <button
+                            className="btn btn-ghost btn-sm text-error tooltip"
+                            data-tip="Delete"
+                            onClick={() => openDelete(item)}
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -421,6 +462,50 @@ const LinksPage = () => {
             </div>
           </>
         )}
+      </div>
+
+      {/* Delete confirmation modal */}
+      <div className={`modal ${deleteTarget ? "modal-open" : ""}`}>
+        <div className="modal-box">
+          <button
+            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+            onClick={closeDelete}
+            aria-label="Close"
+          >
+            ✕
+          </button>
+          <h3 className="font-bold text-lg">Delete link?</h3>
+          <p className="py-2 text-base-content/70">
+            Are you sure you want to delete this short link? This action cannot
+            be undone.
+          </p>
+          {deleteTarget && (
+            <div className="mt-2 p-3 bg-base-200 rounded-lg text-sm">
+              <div className="font-mono truncate">
+                {toFullShortUrl(deleteTarget)}
+              </div>
+              <div className="text-base-content/60 truncate">
+                → {deleteTarget.longUrl}
+              </div>
+            </div>
+          )}
+          <div className="modal-action">
+            <button className="btn btn-ghost" onClick={closeDelete} disabled={deleting}>
+              Cancel
+            </button>
+            <button
+              className="btn btn-error"
+              onClick={confirmDelete}
+              disabled={deleting}
+            >
+              {deleting && (
+                <span className="loading loading-spinner loading-sm mr-2" />
+              )}
+              Delete
+            </button>
+          </div>
+        </div>
+        <div className="modal-backdrop bg-black/40" onClick={closeDelete} />
       </div>
     </section>
   );

@@ -18,14 +18,15 @@ const getUserLinks = async (req, res) => {
 };
 
 const delteUserLink = async (req, res) => {
-  const { shortId } = req.params;
+  const { linkId } = req.params;
   try {
 
-    const link = await Url.findByIdAndDelete({ owner: req.userId, shortId: shortId })
+    const link = await Url.findOneAndDelete({ owner: req.userId, _id: linkId })
 
     if (!link) {
-      return res.status(200).json({
-        success: true,
+
+      return res.status(404).json({
+        success:false,
         message: "link not found.",
 
       });
