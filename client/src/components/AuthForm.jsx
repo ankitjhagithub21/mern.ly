@@ -49,7 +49,7 @@ const AuthForm = ({ title = "Login to your account", type = "login" }) => {
   };
 
   return (
-    <form className="w-full mt-4 space-y-4" onSubmit={handleSubmit} noValidate>
+    <form className="w-full mt-4 space-y-4" onSubmit={handleSubmit} >
       {/* Email */}
       <div className="form-control">
         <label className="label mb-2" htmlFor="email">
@@ -75,7 +75,7 @@ const AuthForm = ({ title = "Login to your account", type = "login" }) => {
 
       {/* Password */}
       <div className="form-control">
-        <label className="label" htmlFor="password">
+        <label className="label mb-2" htmlFor="password">
           <span className="label-text">Password</span>
           <span className="label-text-alt">min 6 characters</span>
         </label>
@@ -97,7 +97,7 @@ const AuthForm = ({ title = "Login to your account", type = "login" }) => {
           />
           <button
             type="button"
-            className="absolute right-1.5 top-1/2 -translate-y-1/2 cursor-pointer"
+            className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
             onClick={() => setShowPw((s) => !s)}
             
           >
@@ -116,7 +116,7 @@ const AuthForm = ({ title = "Login to your account", type = "login" }) => {
       </div>
 
       <button className="btn btn-primary w-full" type="submit" disabled={isLoading}>
-        {isLoading ? <Loader /> : "Login"}
+        {isLoading ? <Loader /> : 'Submit'}
       </button>
 
       
