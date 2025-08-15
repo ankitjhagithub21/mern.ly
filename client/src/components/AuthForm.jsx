@@ -97,7 +97,7 @@ const AuthForm = ({ title = "Login to your account", type = "login" }) => {
           />
           <button
             type="button"
-            className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+            className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer z-10"
             onClick={() => setShowPw((s) => !s)}
             
           >
